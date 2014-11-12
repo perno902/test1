@@ -1,9 +1,10 @@
 #include "Pair.h"
 #include <iostream>
 
-Pair::Pair() {
-  pair[0] = NULL;
-  pair[1] = NULL;
+Pair::Pair(int id1, string name1, string note1, int team1, 
+	   int id2, string name2, string note2, int team2) {
+  pair[0] = new Person(id1, name1, note1, team1);
+  pair[1] = new Person(id2, name2, note2, team2);
 };
 
 bool Pair::containsId(int id) {
@@ -20,11 +21,9 @@ bool Pair::containsId(int id) {
 void Pair::insert(Person *p) {
   if (pair[0] == NULL) {
       pair[0] = p;
-      //  pair[0]->printPerson();
   }
   else {
     pair[1] = p;
-    //  pair[1]->printPerson();
   }
 }
 
@@ -42,16 +41,37 @@ void Pair::printPair() {
     if (pair[i] != NULL) {
       pair[i]->printPerson();
     }
+    else {
+      cout << "NULL" << '\n';
+    }
   }
 }
 
 void Pair::switchNotes() {
-  string temp = pair[0]->getNote();
-  pair[0]->setNote(pair[1]->getNote());
-  pair[1]->setNote(temp);
+  if (isIntact()) {
+    string temp = pair[0]->getNote();
+    pair[0]->setNote(pair[1]->getNote());
+    pair[1]->setNote(temp);
+  }
 }
 
 void Pair::setHasTurn(bool b) {
   hasTurn = b;
+}
+
+bool Pair::isIntact() {
+  if ((pair[0] == NULL) || (pair[1] == NULL)) {
+    return false;
+  } 
+  return true;
+}
+
+bool Pair::isUniform() {
+  if (isIntact()) {
+    if (pair[0]->getTeam() == pair[1]->getTeam()) {
+      return true;
+    }
+  }
+  return false;
 }
 
