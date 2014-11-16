@@ -5,39 +5,61 @@
 #include <string>
 using namespace std;
 
-int main() {
-  //Person *p1 = new Person(3, "Glinda", "Glinda", 0);
-  //Person *p2 = new Person(4, "Elphaba", "Elphaba", 1);
 
-  //switchNotes (p1, p2);
-  //p1->printPerson();
-  //p2->printPerson();
+string input;
+string lastValid;
+bool gameWon = false;
 
-  //Pair *pair = new Pair(3, "Glinda", "Glinda", 0, 4, "Elphaba", "Elphaba", 1);
+void getNameStr(Room * r) {
+  bool validInput;
   
-  //Insert and remove tests
-  //pair->printPair();
-  //pair->containsId(3);
-  //pair->containsId(4);  
-  // pair->remove(4);
-  //pair->printPair();
-  //pair->containsId(4);
+  while (not validInput) {
+    cin >> input;
+ 
+    if (r->isName(input)) {
+      if (input == lastValid) {
+	cout << "Names can not be called twice in a row! Please try again." << endl;
+      }
+      else if (r->isSolo(input)) {
+	cout << "You can not call the name written on your own note. Please try again!" << endl;
+      }
+      else {
+	validInput = true;
+      }
+    }
+    else {
+      cout << "Invalid name! Please try again." << endl;
+    }
+  }
+  lastValid = input;
+}
 
-  //pair->switchNotes();
-  //pair->printPair();
+
+
+
+int main() {
   
   Room *room = new Room();
   
 
+  // Game main loop:
+  while (not gameWon) {
+    room->printRoom();  
+    
+    cout << "===================================================" << endl;;
+    cout << "Team " << room->getTurn() << ", please enter a name." << endl;
+    getNameStr(room);
+    
+    room->callName(input);
+    
+    if (room->fullSofa() >= 0) {
+      gameWon = true;
+    }
+  }
   
-  room->printRoom();
+  cout << "Team " << room->fullSofa() << " won and get to govern the country!";
 
-  int p = room->getPairIdx(room->getNameId("Carl"));
-
-  room->switchNotes(p);
-  room->printRoom();
-
-
+    
   return 0;
 }
 

@@ -11,11 +11,16 @@ class Room {
   Pair *pairs[NO_OF_SEATS/2];
 public:
   Room();
-  bool fullSofa();
+  bool isName(string s);
+  bool isSolo(string s);
+  int fullSofa();
+  int getTurn();
   void printRoom();
   int getNameId(string s);
-  int getPairIdx(int id);
+  int getPairIdx(string name);
+  int getNullPairIdx();
   void switchNotes(int idx);
+  void callName(string name);
 };
 
 

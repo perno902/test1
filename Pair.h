@@ -2,7 +2,7 @@
 #define PAIR_H
 
 #include "Person.h"
-
+#include <string>
 
 class Pair {
   Person *pair[2];
@@ -10,14 +10,15 @@ class Pair {
 public:
   Pair(int id1, string name1, string note1, int team1, 
        int id2, string name2, string note2, int team2);
-  bool containsId(int id);
+  Pair(int id, string name, string note, int team);
+  bool containsName(string name);
   void insert(Person *p);
-  void remove(int id);
+  Person * remove(string Name);
   void printPair();
   void switchNotes();
-  void setHasTurn(bool);
+  int getTurn();
   bool isIntact();
-  bool isUniform();
+  int isSameTeam();
 };
 
 #endif

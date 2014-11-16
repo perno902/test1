@@ -7,13 +7,19 @@ Pair::Pair(int id1, string name1, string note1, int team1,
   pair[1] = new Person(id2, name2, note2, team2);
 };
 
-bool Pair::containsId(int id) {
+Pair::Pair(int id, string name, string note, int team) {
+  pair[0] = new Person(id, name, note, team);
+  pair[1] = NULL;
+};
+
+
+bool Pair::containsName(string name) {
   for (int i = 0; i < 2; i++) {
     if (pair[i] != NULL) {
-      if (pair[i]->getId() == id) {
+      if (pair[i]->getNote() == name) {
 	return true;
       }
-    }
+    }    
   }
   return false;
 }
@@ -27,13 +33,17 @@ void Pair::insert(Person *p) {
   }
 }
 
-void Pair::remove(int id) {
-  if (pair[0]->getId() == id) {
+Person * Pair::remove(string name) {
+  Person * p = NULL;
+  if (pair[0]->getNote() == name) {
+    p = pair[0];
     pair[0] = NULL;
   }
   else {
+    p = pair[1];
     pair[1] = NULL;
   }
+  return p;
 }
 
 void Pair::printPair() {
@@ -42,7 +52,7 @@ void Pair::printPair() {
       pair[i]->printPerson();
     }
     else {
-      cout << "NULL" << '\n';
+      cout << "Id: NULL" << endl << "Name: NULL" << endl << "Note: NULL" << endl << "Team: NULL" << endl;
     }
   }
 }
@@ -55,8 +65,16 @@ void Pair::switchNotes() {
   }
 }
 
-void Pair::setHasTurn(bool b) {
-  hasTurn = b;
+int Pair::getTurn() {
+  if (!isIntact()) {
+    if (pair[0] != NULL) {
+      return pair[0]->getTeam();
+    }
+    else {
+      return pair[1]->getTeam();
+    }
+  }
+  return -1;
 }
 
 bool Pair::isIntact() {
@@ -66,12 +84,14 @@ bool Pair::isIntact() {
   return true;
 }
 
-bool Pair::isUniform() {
+int Pair::isSameTeam() {
   if (isIntact()) {
     if (pair[0]->getTeam() == pair[1]->getTeam()) {
-      return true;
+      return pair[0]->getTeam();
     }
   }
-  return false;
+  return -1;
 }
+
+
 
